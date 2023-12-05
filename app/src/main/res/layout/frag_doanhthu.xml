@@ -53,14 +53,31 @@
         android:text="Doanh Thu"
         android:layout_marginTop="30dp"
         android:backgroundTint="#70cbff"/>
-    <TextView
-        android:id="@+id/tv_doanhthu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        android:hint="Doanh Thu"
-        android:layout_gravity="start"
-        android:layout_marginTop="15dp"/>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <TextView
+
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="28dp"
+           android:textStyle="bold"
+           android:text="Doanh Thu: "
+           android:layout_gravity="start"
+           android:layout_marginTop="15dp"/>
+       <TextView
+           android:id="@+id/tv_doanhthu"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="28dp"
+           android:textStyle="bold"
+           android:text="0 VNĐ"
+           android:layout_gravity="start"
+           android:layout_marginTop="15dp"
+           android:textColor="@color/gia"
+           />
+
+   </LinearLayout>
 
 </LinearLayout>

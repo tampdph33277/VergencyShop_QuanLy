@@ -9,23 +9,45 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
+import tampdph33277.fpoly.vergencyshop_quanly.DTO.HoaDon;
 import tampdph33277.fpoly.vergencyshop_quanly.R;
 
 public class DoanhThuFragment extends Fragment {
     Button btn_doanhthu,btn_ngaybd,btn_ngaykt;
     EditText ed_ngaybd,ed_ngaykt;
     TextView tv_doanhthu;
-    SimpleDateFormat sdf= new SimpleDateFormat("yyyy/MM/dd");
+    SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
     int mDay,mMonth,mYear;
+
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,11 +93,69 @@ public class DoanhThuFragment extends Fragment {
             public void onClick(View v) {
                 String batdau = ed_ngaybd.getText().toString();
                 String ketthuc = ed_ngaykt.getText().toString();
-            //    DAO_PhieuMuon dao_phieuMuon = new DAO_PhieuMuon(getContext());
-            //    tv_doanhthu.setText("Doanh Thu: "+dao_phieuMuon.getDoanhThu(batdau,ketthuc)+" VND");
+                if (batdau.isEmpty() || ketthuc.isEmpty()){
+                    Toast.makeText(getContext(), "Bạn chưa chọn ngày", Toast.LENGTH_SHORT).show();
+
+                    return;
+
+                }
+                try {
+                    boolean checkNgay  = sdf.parse(batdau).before(sdf.parse(ketthuc));
+
+                    if (!checkNgay){
+                        Toast.makeText(getContext(), "Từ ngày phải trước đến ngày", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                reference.child("HoaDon").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()){
+                                int tongTien = 0 ;
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    HoaDon hoaDon = dataSnapshot.getValue(HoaDon.class);
+                                  if (hoaDon.getTrangThai().equals("Đã Giao")){
+                                      try {
+
+                                          boolean checkTN = sdf.parse(batdau).before(sdf.parse(hoaDon.getNgayMua()));
+                                          boolean checkBTN = sdf.parse(batdau).equals(sdf.parse(hoaDon.getNgayMua()));
+
+                                          boolean checkBDN= sdf.parse(ketthuc).equals(sdf.parse(hoaDon.getNgayMua()));
+                                          boolean checkDN = sdf.parse(ketthuc).after(sdf.parse(hoaDon.getNgayMua()));
+                                         if ((checkTN  && checkDN) || (checkBTN || checkBDN)){
+                                              tongTien+= Integer.parseInt(hoaDon.getThanhTien());
+
+                                          }
+                                      } catch (ParseException e) {
+                                          throw new RuntimeException(e);
+                                      }
+                                  }
+                                 tv_doanhthu.setText(String.valueOf(tongTien));
+
+
+                                }
+
+
+                            }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
             }
         });
+
+
+
+
     }
     DatePickerDialog.OnDateSetListener mDate_bd = new DatePickerDialog.OnDateSetListener() {
         @Override

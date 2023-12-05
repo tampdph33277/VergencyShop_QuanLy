@@ -7,10 +7,15 @@
         android:icon="@drawable/cart"/>
     <item
         android:id="@+id/bt_doanhthu"
-        android:title="Danh mục"
+        android:title="Doanh thu"
         android:icon="@drawable/category"/>
     <item
+        android:id="@+id/bt_donhang"
+        android:title="Đơn hàng"
+        android:icon="@drawable/ic_danhmuc"/>
+
+    <item
         android:id="@+id/bt_nguoidung"
-        android:title="Hồ sơ"
+        android:title="Người dùng"
         android:icon="@drawable/user"/>
 </menu>

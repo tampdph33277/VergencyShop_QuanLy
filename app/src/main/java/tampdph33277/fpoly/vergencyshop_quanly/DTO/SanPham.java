@@ -2,11 +2,11 @@ package tampdph33277.fpoly.vergencyshop_quanly.DTO;
 
 import java.io.Serializable;
 
-public class DTO_SanPham implements Serializable {
+public class SanPham implements Serializable {
 
     String anhSP,giaSP,tenSP,motaSP,danhmucSP,trangthaiSP;
 
-    public DTO_SanPham() {
+    public SanPham() {
     }
 
     public String getTrangthaiSP() {
@@ -17,7 +17,7 @@ public class DTO_SanPham implements Serializable {
         this.trangthaiSP = trangthaiSP;
     }
 
-    public DTO_SanPham(String anhSP, String giaSP, String tenSP, String motaSP, String danhmucSP) {
+    public SanPham(String anhSP, String giaSP, String tenSP, String motaSP, String danhmucSP) {
         this.anhSP = anhSP;
         this.giaSP = giaSP;
         this.tenSP = tenSP;
@@ -25,7 +25,7 @@ public class DTO_SanPham implements Serializable {
         this.danhmucSP = danhmucSP;
     }
 
-    public DTO_SanPham(String anhSP, String giaSP, String tenSP, String motaSP, String danhmucSP, String trangthaiSP) {
+    public SanPham(String anhSP, String giaSP, String tenSP, String motaSP, String danhmucSP, String trangthaiSP) {
         this.anhSP = anhSP;
         this.giaSP = giaSP;
         this.tenSP = tenSP;

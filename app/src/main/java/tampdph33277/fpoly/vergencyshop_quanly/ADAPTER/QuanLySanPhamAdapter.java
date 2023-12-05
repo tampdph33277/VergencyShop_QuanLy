@@ -3,13 +3,10 @@ package tampdph33277.fpoly.vergencyshop_quanly.ADAPTER;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -31,25 +27,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
-import tampdph33277.fpoly.vergencyshop_quanly.DTO.DTO_SanPham;
-import tampdph33277.fpoly.vergencyshop_quanly.FRAGMENT.QuanLySanPhamFragment;
+import tampdph33277.fpoly.vergencyshop_quanly.DTO.SanPham;
 import tampdph33277.fpoly.vergencyshop_quanly.R;
 
 public class QuanLySanPhamAdapter extends  RecyclerView.Adapter<QuanLySanPhamAdapter.HolderQuanLySanPham> {
     private final Context context;
-    private ArrayList<DTO_SanPham> list;
+    private ArrayList<SanPham> list;
 
-    public void filterList(ArrayList<DTO_SanPham> filteredList) {
+    public void filterList(ArrayList<SanPham> filteredList) {
         list = filteredList;
         notifyDataSetChanged();
     }
 
-    public QuanLySanPhamAdapter(Context context, ArrayList<DTO_SanPham> list) {
+    public QuanLySanPhamAdapter(Context context, ArrayList<SanPham> list) {
         this.context = context;
         this.list = list;
     }
@@ -135,7 +127,7 @@ public class QuanLySanPhamAdapter extends  RecyclerView.Adapter<QuanLySanPhamAda
 //
 //
 //    }
-public void update_sach(DTO_SanPham jobsp,int position){
+public void update_sach(SanPham jobsp, int position){
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     LayoutInflater inflater = ((Activity)context).getLayoutInflater();
     View v = inflater.inflate(R.layout.dialog_edit_sanpham,null);
@@ -154,13 +146,39 @@ public void update_sach(DTO_SanPham jobsp,int position){
     Ed_gia_sp.setText(jobsp.getGiaSP());
     Ed_mota_sp.setText(jobsp.getMotaSP());
     Ed_ten_SP.setText(jobsp.getTenSP());
+
     String [] stringTragThai = {"Còn Hàng","Hết Hàng"};
 
     String [] strings = {"shirt","tshirt","sweater","pants","hoodies","short"};
     ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,strings);
     ArrayAdapter<String> adapterTrangthai = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,stringTragThai);
+
+
+
     spin_trangthai.setAdapter(adapterTrangthai);
     spin_danhmuc.setAdapter(adapter);
+    //Danh mục
+    if (jobsp.getDanhmucSP().equals("shirt")){
+        spin_danhmuc.setSelection(0);
+    }else if (jobsp.getDanhmucSP().equals("tshirt")){
+        spin_danhmuc.setSelection(1);
+    }else if (jobsp.getDanhmucSP().equals("sweater")){
+        spin_danhmuc.setSelection(2);
+    }else if (jobsp.getDanhmucSP().equals("pants")){
+        spin_danhmuc.setSelection(3);
+    }else if (jobsp.getDanhmucSP().equals("hoodies")){
+        spin_danhmuc.setSelection(4);
+    }else {
+        spin_danhmuc.setSelection(5);
+    }
+
+    //Trạng thái
+    if (jobsp.getTrangthaiSP().equals("Còn Hàng")){
+        spin_trangthai.setSelection(0);
+    }else {
+        spin_trangthai.setSelection(1);
+    }
+
     dialog.show();
     btn_luu_sp.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -171,7 +189,7 @@ public void update_sach(DTO_SanPham jobsp,int position){
             String giaSP = Ed_gia_sp.getText().toString();
             String motaSP = Ed_mota_sp.getText().toString();
             String danhMuc = spin_danhmuc.getSelectedItem().toString();
-String trangthai = spin_trangthai.getSelectedItem().toString();
+            String trangthai = spin_trangthai.getSelectedItem().toString();
             // Thực hiện cập nhật dữ liệu vào Firebase hoặc nơi lưu trữ dữ liệu của bạn
             DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("SanPham").child(("S"+(position+1)));
 

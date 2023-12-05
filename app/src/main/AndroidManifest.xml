@@ -12,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VergencyShop_QuanLy"
         tools:targetApi="31">
+        <activity android:name=".ChiTietHoaDonActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

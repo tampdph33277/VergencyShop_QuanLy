@@ -3,7 +3,6 @@ package tampdph33277.fpoly.vergencyshop_quanly.FRAGMENT;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tampdph33277.fpoly.vergencyshop_quanly.ADAPTER.QuanLySanPhamAdapter;
-import tampdph33277.fpoly.vergencyshop_quanly.DTO.DTO_SanPham;
+import tampdph33277.fpoly.vergencyshop_quanly.DTO.SanPham;
 import tampdph33277.fpoly.vergencyshop_quanly.R;
 
 
@@ -46,8 +44,8 @@ public class QuanLySanPhamFragment extends Fragment {
 ImageView addSP_ImageView;
 
     private RecyclerView rcSanPham;
-    ArrayList<DTO_SanPham> list = new ArrayList<>();
-    private ArrayList<DTO_SanPham> search_List = new ArrayList<>();
+    ArrayList<SanPham> list = new ArrayList<>();
+    private ArrayList<SanPham> search_List = new ArrayList<>();
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     @Nullable
     @Override
@@ -83,7 +81,7 @@ anhXa();
         reference.child("SanPham").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                DTO_SanPham sanPham =  snapshot.getValue(DTO_SanPham.class);
+                SanPham sanPham =  snapshot.getValue(SanPham.class);
                 list.add(sanPham);
                 quanLySanPhamAdapter.notifyDataSetChanged();
             }
@@ -95,7 +93,7 @@ anhXa();
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                DTO_SanPham sanPham =  snapshot.getValue(DTO_SanPham.class);
+                SanPham sanPham =  snapshot.getValue(SanPham.class);
                 quanLySanPhamAdapter.notifyDataSetChanged();
             }
             @Override
@@ -157,8 +155,8 @@ anhXa();
                     return;
                 }
                 DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("SanPham").child(("S"+(list.size() + 1)));
-                DTO_SanPham dto_sanPham = new DTO_SanPham(linkSP,giaSP,tenSP,motaSP,danhMuc);
-                databaseRef.setValue(dto_sanPham);
+                SanPham _sanPham = new SanPham(linkSP,giaSP,tenSP,motaSP,danhMuc);
+                databaseRef.setValue(_sanPham);
 
                 dialog.dismiss();
             }
@@ -179,7 +177,7 @@ anhXa();
                 search_List.clear();
 
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                    DTO_SanPham sanPham = childSnapshot.getValue(DTO_SanPham.class);
+                    SanPham sanPham = childSnapshot.getValue(SanPham.class);
                     String lowercaseTenSP = sanPham.getTenSP().toLowerCase();
                     if (lowercaseTenSP.contains(keyword.toLowerCase())) {
                         search_List.add(sanPham);
