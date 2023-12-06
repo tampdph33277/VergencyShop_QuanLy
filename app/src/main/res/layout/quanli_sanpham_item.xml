@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:padding="10sp"
     android:layout_margin="10sp"
-    android:background="#70cbff"
+    android:background="#4170CBFF"
     android:id="@+id/layoutItemSanPhamTrangChu"
     >
 
@@ -38,11 +38,11 @@
         android:text="49,000 VNĐ"
         android:textStyle="bold"
         android:textColor="@color/gia"/>
-    <ImageButton
+    <ImageView
+        android:layout_gravity="end|center"
         android:id="@+id/img_edit_sanpham"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="#70cbff"
-        android:src="@drawable/file"/>
+        android:src="@drawable/writing"/>
 
 </LinearLayout>
