@@ -155,7 +155,7 @@ anhXa();
                     return;
                 }
                 DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("SanPham").child(("S"+(list.size() + 1)));
-                SanPham _sanPham = new SanPham(linkSP,giaSP,tenSP,motaSP,danhMuc);
+                SanPham _sanPham = new SanPham(linkSP,giaSP,tenSP,motaSP,danhMuc,"Còn Hàng");
                 databaseRef.setValue(_sanPham);
 
                 dialog.dismiss();
