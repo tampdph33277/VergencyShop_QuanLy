@@ -76,9 +76,6 @@ public class QuanLySanPhamAdapter extends  RecyclerView.Adapter<QuanLySanPhamAda
         Currency currency = Currency.getInstance(locale);
 
         String formattedGiaSP = currencyFormat.format(Double.parseDouble(list.get(position).getGiaSP()));
-
-
-
         if (list.get(position).getTrangthaiSP() == null || list.get(position).getTrangthaiSP().equals("Còn Hàng")   ){
             holder.giaSP.setText(formattedGiaSP);
 
