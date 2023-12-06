@@ -15,26 +15,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 
+import com.google.firebase.database.ValueEventListener;
+
+
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import tampdph33277.fpoly.vergencyshop_quanly.DTO.HoaDon;
 import tampdph33277.fpoly.vergencyshop_quanly.R;
@@ -134,7 +133,12 @@ public class DoanhThuFragment extends Fragment {
                                           throw new RuntimeException(e);
                                       }
                                   }
-                                 tv_doanhthu.setText(String.valueOf(tongTien));
+                                    Locale locale = new Locale("vi", "VN");
+                                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(locale);
+                                    Currency currency = Currency.getInstance(locale);
+                                    String formattedDoanhthu = currencyFormat.format(Double.parseDouble(String.valueOf(tongTien)));
+                                    tv_doanhthu.setText(formattedDoanhthu);
+
 
 
                                 }

@@ -19,7 +19,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Locale;
 
 import tampdph33277.fpoly.vergencyshop_quanly.ChiTietHoaDonActivity;
 import tampdph33277.fpoly.vergencyshop_quanly.DTO.HoaDon;
@@ -62,13 +65,20 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.HolderHoaD
 
 
 
-
-         if (Integer.parseInt(list.get(position).getThanhTien()) < 300000){
-             holder. tvTongTienHoaDon.setText("Thành tiền: "+(Integer.parseInt(list.get(position).getThanhTien()) + 20000)+" VNĐ");
-
+int tienhoadon = Integer.parseInt(list.get(position).getThanhTien());
+        int tongTienHoaDon = tienhoadon;
+         if (tienhoadon < 300000){
+             tongTienHoaDon+=20000;
+             holder. tvTongTienHoaDon.setText(""+tongTienHoaDon);
          }else {
-             holder. tvTongTienHoaDon.setText("Thành tiền: "+list.get(position).getThanhTien()+" VNĐ");
+             holder. tvTongTienHoaDon.setText("Thành tiền: "+ tienhoadon);
          }
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(locale);
+        Currency currency = Currency.getInstance(locale);
+        String formattedDoanhthu = currencyFormat.format(Double.parseDouble(String.valueOf(tongTienHoaDon)));
+        holder.tvTongTienHoaDon.setText("Thành Tiền: "+formattedDoanhthu);
+
 
 
         reference.child("NguoiDung").child(list.get(position).getIdND()).addValueEventListener(new ValueEventListener() {
