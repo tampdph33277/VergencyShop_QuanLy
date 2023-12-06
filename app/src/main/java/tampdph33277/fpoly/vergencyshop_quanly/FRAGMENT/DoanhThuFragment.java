@@ -1,6 +1,7 @@
 package tampdph33277.fpoly.vergencyshop_quanly.FRAGMENT;
 
 import android.app.DatePickerDialog;
+import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import tampdph33277.fpoly.vergencyshop_quanly.DTO.HoaDon;
 import tampdph33277.fpoly.vergencyshop_quanly.R;
@@ -134,7 +137,12 @@ public class DoanhThuFragment extends Fragment {
                                           throw new RuntimeException(e);
                                       }
                                   }
-                                 tv_doanhthu.setText(String.valueOf(tongTien));
+                                    Locale locale = new Locale("vi", "VN");
+                                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(locale);
+                                    Currency currency = Currency.getInstance(locale);
+                                    String formattedDoanhthu = currencyFormat.format(Double.parseDouble(String.valueOf(tongTien)));
+                                    tv_doanhthu.setText(formattedDoanhthu);
+
 
 
                                 }
