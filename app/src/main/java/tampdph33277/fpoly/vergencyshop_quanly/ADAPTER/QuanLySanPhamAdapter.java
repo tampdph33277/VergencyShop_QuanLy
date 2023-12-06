@@ -173,7 +173,7 @@ public void update_sach(SanPham jobsp, int position){
     }
 
     //Trạng thái
-    if (jobsp.getTrangthaiSP().equals("Còn Hàng")){
+    if (jobsp.getTrangthaiSP()==null || jobsp.getTrangthaiSP().equals("Còn Hàng")){
         spin_trangthai.setSelection(0);
     }else {
         spin_trangthai.setSelection(1);
